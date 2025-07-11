@@ -2,15 +2,14 @@
 venv
 __pycache__/
 *.py[cod]
-*.sqlite3
-db.sqlite3
+
 *.log
 *.pot
 *.pyc
 *.pyo
 *.pyd
 .Python
-*.db
+
 *.DS_Store
 *.egg-info/
 media
