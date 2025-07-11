@@ -14,7 +14,7 @@ db.sqlite3
 *.DS_Store
 *.egg-info/
 media
-staticfiles
+
 *.migrations/
 .vscode/
 *.bak
