@@ -15,58 +15,100 @@ def extract_text_from_pdf(pdf_file_path):
         return f"Error reading PDF file: {e}"
 
 def generate_interview_questions(pdf_file_path):
-    # Initialize the Groq client with API key
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    try:
+        # Import Django settings to get GROQ_API_KEY
+        from django.conf import settings
+        
+        # Initialize the Groq client with API key from settings
+        client = Groq(api_key=settings.GROQ_API_KEY)
+        
+        if not settings.GROQ_API_KEY:
+            return "Error: GROQ_API_KEY not found in settings. Please check your .env file and ensure python-decouple is installed."
 
-    # Extract text from the PDF resume
-    resume_content = extract_text_from_pdf(pdf_file_path)
-    if resume_content.startswith("Error"):
-        return resume_content  # Return error message if PDF reading fails
+        # Check if file exists
+        if not os.path.exists(pdf_file_path):
+            return f"Error: Resume file not found at {pdf_file_path}"
 
-    # Template for generating interview questions
+        # Extract text from the PDF resume
+        resume_content = extract_text_from_pdf(pdf_file_path)
+        if resume_content.startswith("Error"):
+            return resume_content  # Return error message if PDF reading fails
+    except Exception as e:
+        return f"Error initializing question generation: {e}"
+
+    # Enhanced template for generating consistently formatted interview questions
     template = (
-        "You are an experienced interviewer tasked with generating well-structured and insightful interview questions based on the candidate's resume content: {resume_content}. "
-        "Your questions should be relevant, professionally phrased, and reflect real-world interview standards.\n\n"
+        "You are an experienced interviewer creating well-structured interview questions. "
+        "Based on the resume content: {resume_content}, generate questions in the following EXACT format:\n\n"
 
-        "1. General Skills-Based Questions:\n"
-        "   - Generate a total of **12 questions** assessing the candidate's general professional and soft skills.\n"
-        "   - Categorize the questions as follows:\n"
-        "     - **3 Easy** questions: Basic, introductory-level questions.\n"
-        "     - **3 Medium** questions: More in-depth, practical application-based questions.\n"
-        "     - **3 Hard** questions: Complex scenarios requiring problem-solving.\n"
-        "     - **3 Extreme Hard** questions: Highly challenging, requiring deep critical thinking.\n\n"
+        "## General Skills Questions\n\n"
+        "### Easy Questions\n"
+        "1. What motivated you to pursue a career in your field?\n"
+        "2. How do you stay updated with industry trends?\n"
+        "3. Describe your approach to learning new technologies.\n\n"
 
-        "2. Technical Skills-Based Questions:\n"
-        "   - Generate a total of **12 questions** targeting the candidate’s expertise in programming languages, tools, frameworks, or technologies.\n"
-        "   - Categorize the questions as follows:\n"
-        "     - **3 Easy** questions: Basic theoretical or conceptual questions.\n"
-        "     - **3 Medium** questions: Practical application or troubleshooting scenarios.\n"
-        "     - **3 Hard** questions: Advanced, multi-step problem-solving questions.\n"
-        "     - **3 Extreme Hard** questions: Expert-level questions involving optimization, architecture, or real-world challenges.\n\n"
+        "### Medium Questions\n"
+        "1. Tell me about a time you had to work under pressure.\n"
+        "2. How do you prioritize tasks when managing multiple projects?\n"
+        "3. Describe a situation where you had to adapt to change.\n\n"
 
-        "3. Project-Based Questions:\n"
-        "   - Generate a total of **12 questions** specifically about the projects mentioned in the resume.\n"
-        "   - Focus on the candidate’s role, technologies used, key challenges, and solutions.\n"
-        "   - Categorize the questions as follows:\n"
-        "     - **3 Easy** questions: Basic inquiries about project details.\n"
-        "     - **3 Medium** questions: Deeper discussions on implementation and impact.\n"
-        "     - **3 Hard** questions: Critical problem-solving and technical choices.\n"
-        "     - **3 Extreme Hard** questions: Strategic, high-level decision-making challenges.\n\n"
+        "### Hard Questions\n"
+        "1. How would you handle a conflict with a team member?\n"
+        "2. Describe a time you had to make a difficult decision with limited information.\n"
+        "3. How do you approach problem-solving in complex situations?\n\n"
 
-        "4. Behavioral Questions:\n"
-        "   - Generate a total of **12 questions** focusing on the candidate’s experience, teamwork, leadership, and problem-solving skills.\n"
-        "   - Categorize the questions as follows:\n"
-        "     - **3 Easy** questions: Basic situational and self-reflective questions.\n"
-        "     - **3 Medium** questions: More complex, experience-driven questions.\n"
-        "     - **3 Hard** questions: Handling high-pressure situations and conflicts.\n"
-        "     - **3 Extreme Hard** questions: Strategic leadership and ethical dilemma scenarios.\n\n"
+        "### Extreme Hard Questions\n"
+        "1. How would you lead a team through a major organizational change?\n"
+        "2. Describe your strategy for handling competing priorities from different stakeholders.\n"
+        "3. How would you approach a situation where you disagreed with your manager's decision?\n\n"
 
-        "5. Formatting Rules:\n"
-        "   - Organize the questions into clearly labeled sections: 'General Skills Questions', 'Technical Questions', 'Project Questions', and 'Behavioral Questions'.\n"
-        "   - Under each section, label the questions clearly by difficulty: 'Easy', 'Medium', 'Hard', and 'Extreme Hard'.\n"
-        "   - Do not include any additional comments, explanations, or introductory text beyond the specified instructions.\n"
-        "   - If the resume content is invalid or insufficient, return an empty string ('').\n"
-        "   - make the test markdown friendly\n"
+        "## Technical Questions\n\n"
+        "### Easy Questions\n"
+        "1. [Generate 3 basic technical questions based on resume skills]\n\n"
+
+        "### Medium Questions\n"
+        "1. [Generate 3 practical technical questions]\n\n"
+
+        "### Hard Questions\n"
+        "1. [Generate 3 advanced technical questions]\n\n"
+
+        "### Extreme Hard Questions\n"
+        "1. [Generate 3 expert-level technical questions]\n\n"
+
+        "## Project Questions\n\n"
+        "### Easy Questions\n"
+        "1. [Generate 3 basic project questions based on resume projects]\n\n"
+
+        "### Medium Questions\n"
+        "1. [Generate 3 detailed project questions]\n\n"
+
+        "### Hard Questions\n"
+        "1. [Generate 3 challenging project questions]\n\n"
+
+        "### Extreme Hard Questions\n"
+        "1. [Generate 3 strategic project questions]\n\n"
+
+        "## Behavioral Questions\n\n"
+        "### Easy Questions\n"
+        "1. [Generate 3 basic behavioral questions]\n\n"
+
+        "### Medium Questions\n"
+        "1. [Generate 3 experience-based behavioral questions]\n\n"
+
+        "### Hard Questions\n"
+        "1. [Generate 3 challenging behavioral questions]\n\n"
+
+        "### Extreme Hard Questions\n"
+        "1. [Generate 3 leadership/ethical behavioral questions]\n\n"
+
+        "IMPORTANT FORMATTING RULES:\n"
+        "- Use exactly ## for main sections (General Skills Questions, Technical Questions, etc.)\n"
+        "- Use exactly ### for difficulty levels (Easy Questions, Medium Questions, etc.)\n"
+        "- Number all questions as 1., 2., 3. within each difficulty level\n"
+        "- Make questions specific to the candidate's background and skills\n"
+        "- Ensure each question is meaningful and interview-appropriate\n"
+        "- Replace bracketed placeholders with actual questions relevant to the resume\n"
+        "- Keep consistent formatting throughout\n"
     )
 
     # Format the template with the resume content
@@ -120,36 +162,46 @@ def schedule_meeting(topic, start_time, zoom_account_id, zoom_client_id, zoom_cl
             print("Error getting access token:", response.text)
             return None
 
-    # Schedule the meeting
-    access_token = get_zoom_access_token()
-    if not access_token:
-        return None
+    try:
+        # Validate input parameters
+        if not all([topic, start_time, zoom_account_id, zoom_client_id, zoom_client_secret]):
+            print("Error: Missing required Zoom credentials or meeting details")
+            return None
 
-    url = "https://api.zoom.us/v2/users/me/meetings"
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "topic": topic,
-        "type": 2,
-        "start_time": start_time,
-        "duration": 30,  # 30-minute meeting
-        "timezone": "UTC",
-        "settings": {
-            "host_video": True,
-            "participant_video": True,
-            "mute_upon_entry": True,
-            "waiting_room": False
+        # Schedule the meeting
+        access_token = get_zoom_access_token()
+        if not access_token:
+            return None
+
+        url = "https://api.zoom.us/v2/users/me/meetings"
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json"
         }
-    }
+        payload = {
+            "topic": topic,
+            "type": 2,
+            "start_time": start_time,
+            "duration": 30,  # 30-minute meeting
+            "timezone": "UTC",
+            "settings": {
+                "host_video": True,
+                "participant_video": True,
+                "mute_upon_entry": True,
+                "waiting_room": False
+            }
+        }
 
-    response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload)
 
-    if response.status_code == 201:
-        return response.json()["join_url"]
-    else:
-        print("Error scheduling meeting:", response.text)
+        if response.status_code == 201:
+            return response.json()["join_url"]
+        else:
+            print("Error scheduling meeting:", response.text)
+            return None
+            
+    except Exception as e:
+        print(f"Unexpected error in schedule_meeting: {e}")
         return None
     
 
@@ -159,8 +211,11 @@ def schedule_meeting(topic, start_time, zoom_account_id, zoom_client_id, zoom_cl
 def transcribe_audio(audio_file_path):
     """Transcribes an audio file and analyzes the interview using LLaMA."""
     
+    # Import Django settings to get GROQ_API_KEY
+    from django.conf import settings
+    
     # Initialize Groq Client
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    client = Groq(api_key=settings.GROQ_API_KEY)
 
     # Step 1: Transcribe the Audio
     try:

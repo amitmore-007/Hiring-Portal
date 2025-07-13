@@ -9,8 +9,11 @@ urlpatterns = [
     path('', include('home.urls')), 
     path('candidate/', include('candidates.urls')),
     path('interviewer/', include('interviewers.urls')),
-    
 ]
 
+# Serve media files in development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files in development
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

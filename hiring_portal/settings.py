@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t5gghfa29js#hs91w)bdv*2=+fxbqv!xu0qjc++i-2-izz=fs5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 
 ALLOWED_HOSTS = ["*"]
@@ -128,14 +129,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-RESUME_URL = '/interviewer/resumes/'  # Updated URL path
-RESUME_ROOT = os.path.join(BASE_DIR, 'resumes')  # Path to resumes folder
-
-
+# Media files (User uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
-
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+# Environment variables
+GROQ_API_KEY = config("GROQ_API_KEY", default="")

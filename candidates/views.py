@@ -27,6 +27,11 @@ def candidate_dashboard(request):
     })
 
 
+def candidate_logout(request):
+    logout(request)
+    return redirect('home')  # Redirect to home page after logout
+
+
 
 class CandidateLoginView(LoginView):
     template_name = 'candidates/login.html'
