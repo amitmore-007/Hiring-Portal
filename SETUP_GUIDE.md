@@ -38,6 +38,20 @@ Meeting scheduling has been improved with:
 - Input validation for required parameters
 - Better timeout handling for network requests
 
+## Authentication Fixes
+
+### Issues Fixed:
+1. **Login Redirect Loops**: Removed conflicting LOGIN_URL settings that caused redirect loops
+2. **Dashboard Access**: Fixed authentication decorators to prevent redirect to login page when already logged in
+3. **Session Management**: Improved session configuration for better authentication handling
+4. **URL Conflicts**: Cleaned up URL patterns to avoid authentication conflicts
+
+### Key Changes:
+- Removed default LOGIN_URL from settings to prevent conflicts
+- Added proper authentication checks in views
+- Improved error handling and messaging
+- Fixed redirect logic for authenticated users
+
 ## Installing Dependencies
 
 ```bash
@@ -55,9 +69,31 @@ pip install -r requirements.txt
 1. **Resume Download**: Upload a resume and try downloading it from both candidate and interviewer dashboards
 2. **Generate Questions**: Click the "Generate AI Questions" button on interviewer dashboard
 3. **Meeting Scheduling**: Try scheduling a meeting (requires valid Zoom credentials)
+4. **Candidate Login**: 
+   - Go to `/candidate/login/`
+   - Enter credentials and click "Sign In"
+   - Should redirect to `/candidate/dashboard/` successfully
+5. **Interviewer Login**: 
+   - Go to `/interviewer/login/`
+   - Enter credentials and click "Access Dashboard"
+   - Should redirect to `/interviewer/dashboard/` successfully
+6. **Generate Questions**: 
+   - Login as interviewer
+   - Should stay on dashboard when generating questions
+   - No redirect to login page
+
+## Deployment Considerations
+
+- Ensure `DEBUG=False` in production
+- Set `CSRF_COOKIE_SECURE=True` and `SESSION_COOKIE_SECURE=True` for HTTPS
+- Verify media file serving is configured correctly
 
 ## Troubleshooting
 
 - If resume download still fails, check if the `media` folder has proper permissions
 - If question generation fails, verify GROQ_API_KEY is correctly set
 - If meeting scheduling fails, verify Zoom API credentials are valid
+- If login still redirects to same page, clear browser cache and cookies
+- Check Django logs for authentication errors
+- Verify CSRF tokens are included in forms
+- Ensure session middleware is enabled

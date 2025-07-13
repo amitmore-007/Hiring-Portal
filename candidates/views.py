@@ -6,11 +6,18 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth import logout, login
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 
-@login_required(login_url='/candidate/login/')
+@login_required
 def candidate_dashboard(request):
+    """Candidate dashboard view - no custom login_url to avoid conflicts"""
     try:
+        # Check if user is authenticated
+        if not request.user.is_authenticated:
+            messages.error(request, 'Please log in to access your dashboard.')
+            return redirect('candidate_login')
+
         candidate_profile, created = CandidateProfile.objects.get_or_create(user=request.user)
 
         if request.method == 'POST':
@@ -18,7 +25,7 @@ def candidate_dashboard(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Resume uploaded successfully!')
-                return redirect('candidate_dashboard')
+                return HttpResponseRedirect(request.path)
             else:
                 messages.error(request, 'Error uploading resume. Please try again.')
         else:
@@ -49,13 +56,21 @@ class CandidateLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('candidate_dashboard')
     
+    def form_valid(self, form):
+        """Handle successful login"""
+        messages.success(self.request, f'Welcome back, {form.get_user().username}!')
+        return super().form_valid(form)
+    
     def form_invalid(self, form):
+        """Handle failed login"""
         messages.error(self.request, 'Invalid username or password. Please try again.')
         return super().form_invalid(form)
 
-    def form_valid(self, form):
-        messages.success(self.request, f'Welcome back, {form.get_user().username}!')
-        return super().form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        """Handle already authenticated users"""
+        if request.user.is_authenticated:
+            return redirect('candidate_dashboard')
+        return super().dispatch(request, *args, **kwargs)
 
 
 def candidate_signup(request):

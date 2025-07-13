@@ -217,9 +217,29 @@
                             <p class="text-gray-400 text-sm sm:text-base">Access your candidate dashboard</p>
                         </div>
 
+                        <!-- Success/Error Messages -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="bg-{% if message.tags == 'error' %}red{% else %}green{% endif %}-500/10 border border-{% if message.tags == 'error' %}red{% else %}green{% endif %}-500/30 text-{% if message.tags == 'error' %}red{% else %}green{% endif %}-400 px-4 py-3 rounded-xl backdrop-blur-sm mb-4">
+                                    <p class="flex items-center">
+                                        <i class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% else %}check-circle{% endif %} mr-2"></i>
+                                        {{ message }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
                         <form method="post" class="space-y-4 sm:space-y-6 animate-fade-in" style="animation-delay: 0.4s;">
                             {% csrf_token %}
                             
+                            <!-- Debug info (remove in production) -->
+                            {% if settings.DEBUG %}
+                            <div class="text-xs text-gray-500 mb-4">
+                                <p>Form errors: {{ form.errors }}</p>
+                                <p>Non-field errors: {{ form.non_field_errors }}</p>
+                            </div>
+                            {% endif %}
+
                             <div class="space-y-2">
                                 <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
                                     <i class="fas fa-user text-purple-400 mr-2"></i>Username

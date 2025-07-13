@@ -153,7 +153,15 @@ CACHES = {
 # Session configuration
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
-SESSION_COOKIE_AGE = 3600  # 1 hour
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_COOKIE_SECURE = not DEBUG  # Only use secure cookies in production
+SESSION_COOKIE_HTTPONLY = True
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# CSRF Configuration
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
 
 # File upload settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
@@ -202,7 +210,5 @@ LOGGING = {
     },
 }
 
-# Login/Logout URLs
-LOGIN_URL = '/candidate/login/'  # Default login URL
-LOGIN_REDIRECT_URL = '/candidate/dashboard/'  # Default redirect after login
+# Login/Logout URLs - Remove conflicting settings
 LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
