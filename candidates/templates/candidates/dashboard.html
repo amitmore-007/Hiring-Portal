@@ -122,23 +122,23 @@
 
     <!-- Navigation -->
     <nav class="relative z-50 glass-morphism border-b border-gray-700/50">
-        <div class="container mx-auto px-6 py-4">
+        <div class="container mx-auto px-4 sm:px-6 py-4">
             <div class="flex justify-between items-center">
-                <a href="/" class="flex items-center space-x-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-                        <i class="fas fa-briefcase text-white text-lg"></i>
+                <a href="/" class="flex items-center space-x-2 sm:space-x-3 group">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-briefcase text-white text-sm sm:text-lg"></i>
                     </div>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <span class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                         Hiring Portal
                     </span>
                 </a>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2 text-gray-300">
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="hidden sm:flex items-center space-x-2 text-gray-300">
                         <i class="fas fa-user-circle text-purple-400"></i>
                         <span>Candidate Dashboard</span>
                     </div>
-                    <a href="{% url 'candidate_logout' %}" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    <a href="{% url 'candidate_logout' %}" class="px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-sm sm:text-base">
+                        <i class="fas fa-sign-out-alt mr-1 sm:mr-2"></i><span class="hidden sm:inline">Logout</span>
                     </a>
                 </div>
             </div>
@@ -146,44 +146,44 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="relative z-10 container mx-auto px-6 py-12">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <!-- Header Section -->
-        <div class="text-center mb-16 animate-fade-in">
-            <h1 class="text-5xl font-black mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <div class="text-center mb-12 sm:mb-16 animate-fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-3 sm:mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Your Career Command Center
             </h1>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto px-4">
                 Manage your profile, track applications, and accelerate your career journey with AI-powered insights.
             </p>
         </div>
 
         <!-- Dashboard Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
             
             <!-- Resume Upload Section -->
             <div class="card animate-slide-up" style="animation-delay: 0.1s;">
                 <div class="gradient-border h-full">
-                    <div class="gradient-border-inner p-8 h-full flex flex-col">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mr-4 animate-glow">
-                                <i class="fas fa-file-upload text-xl text-white"></i>
+                    <div class="gradient-border-inner p-6 sm:p-8 h-full flex flex-col">
+                        <div class="flex items-center mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 animate-glow">
+                                <i class="fas fa-file-upload text-lg sm:text-xl text-white"></i>
                             </div>
-                            <h2 class="text-2xl font-bold text-white">Resume Upload</h2>
+                            <h2 class="text-xl sm:text-2xl font-bold text-white">Resume Upload</h2>
                         </div>
                         
                         <form method="post" enctype="multipart/form-data" class="flex-1 flex flex-col">
                             {% csrf_token %}
-                            <div class="upload-zone rounded-2xl p-8 text-center mb-6 flex-1 flex flex-col justify-center">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-purple-400 mb-4 animate-bounce-slow"></i>
-                                <p class="text-gray-300 mb-4">Drop your resume here or browse to upload</p>
+                            <div class="upload-zone rounded-xl sm:rounded-2xl p-6 sm:p-8 text-center mb-4 sm:mb-6 flex-1 flex flex-col justify-center">
+                                <i class="fas fa-cloud-upload-alt text-3xl sm:text-4xl text-purple-400 mb-3 sm:mb-4 animate-bounce-slow"></i>
+                                <p class="text-gray-300 mb-3 sm:mb-4 text-sm sm:text-base">Drop your resume here or browse to upload</p>
                                 <input type="file" 
                                        name="{{ form.resume.name }}" 
-                                       class="input-file w-full px-4 py-3 rounded-xl text-white placeholder-gray-500 focus:outline-none"
+                                       class="input-file w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base"
                                        accept=".pdf,.doc,.docx">
                             </div>
                             <button type="submit" 
-                                    class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl font-semibold 
-                                           hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+                                    class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold 
+                                           hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-sm sm:text-base">
                                 <i class="fas fa-upload mr-2"></i>Upload Resume
                             </button>
                         </form>
@@ -194,17 +194,17 @@
             <!-- Resume Status Section -->
             <div class="card animate-slide-up" style="animation-delay: 0.2s;">
                 <div class="gradient-border h-full">
-                    <div class="gradient-border-inner p-8 h-full flex flex-col">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mr-4 animate-glow">
-                                <i class="fas fa-file-alt text-xl text-white"></i>
+                    <div class="gradient-border-inner p-6 sm:p-8 h-full flex flex-col">
+                        <div class="flex items-center mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 animate-glow">
+                                <i class="fas fa-file-alt text-lg sm:text-xl text-white"></i>
                             </div>
-                            <h2 class="text-2xl font-bold text-white">Resume Status</h2>
+                            <h2 class="text-xl sm:text-2xl font-bold text-white">Resume Status</h2>
                         </div>
                         
                         {% if candidate_profile.resume %}
                             <div class="flex-1 flex flex-col justify-center">
-                                <div class="text-center mb-6">
+                                <div class="text-center mb-4 sm:mb-6">
                                     <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
                                         <i class="fas fa-check text-2xl text-white"></i>
                                     </div>
@@ -212,7 +212,7 @@
                                     <p class="text-gray-300 text-sm">Your resume is live and visible to recruiters</p>
                                 </div>
                                 <a href="{{ candidate_profile.resume.url }}?t={{ candidate_profile.id }}" target="_blank"
-                                   class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold 
+                                   class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold 
                                           hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 text-center">
                                     <i class="fas fa-download mr-2"></i>Download Resume
                                 </a>
@@ -233,17 +233,17 @@
             <!-- Interview Status Section -->
             <div class="card animate-slide-up" style="animation-delay: 0.3s;">
                 <div class="gradient-border h-full">
-                    <div class="gradient-border-inner p-8 h-full flex flex-col">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl flex items-center justify-center mr-4 animate-glow">
-                                <i class="fas fa-video text-xl text-white"></i>
+                    <div class="gradient-border-inner p-6 sm:p-8 h-full flex flex-col">
+                        <div class="flex items-center mb-4 sm:mb-6">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-xl sm:rounded-2xl flex items-center justify-center mr-3 sm:mr-4 animate-glow">
+                                <i class="fas fa-video text-lg sm:text-xl text-white"></i>
                             </div>
-                            <h2 class="text-2xl font-bold text-white">Interview Hub</h2>
+                            <h2 class="text-xl sm:text-2xl font-bold text-white">Interview Hub</h2>
                         </div>
                         
                         {% if meeting_link %}
                             <div class="flex-1 flex flex-col justify-center">
-                                <div class="text-center mb-6">
+                                <div class="text-center mb-4 sm:mb-6">
                                     <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
                                         <i class="fas fa-calendar-check text-2xl text-white"></i>
                                     </div>
@@ -256,7 +256,7 @@
                                     {% endif %}
                                 </div>
                                 <a href="{{ meeting_link }}" target="_blank" 
-                                   class="w-full bg-gradient-to-r from-pink-600 to-red-600 text-white py-3 px-6 rounded-xl font-semibold 
+                                   class="w-full bg-gradient-to-r from-pink-600 to-red-600 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold 
                                           hover:from-pink-700 hover:to-red-700 transition-all duration-300 transform hover:scale-105 text-center">
                                     <i class="fas fa-video mr-2"></i>Join Interview
                                 </a>
@@ -276,37 +276,37 @@
         </div>
 
         <!-- Additional Features Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 max-w-7xl mx-auto">
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
-                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-chart-line text-white"></i>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-12 sm:mt-16 max-w-7xl mx-auto">
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-chart-line text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Profile Views</h3>
-                <p class="text-2xl font-bold text-purple-400">127</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Profile Views</h3>
+                <p class="text-xl sm:text-2xl font-bold text-purple-400">127</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
-                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-handshake text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-handshake text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Applications</h3>
-                <p class="text-2xl font-bold text-blue-400">23</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Applications</h3>
+                <p class="text-xl sm:text-2xl font-bold text-blue-400">23</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
-                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-star text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-star text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Rating</h3>
-                <p class="text-2xl font-bold text-green-400">4.8</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Rating</h3>
+                <p class="text-xl sm:text-2xl font-bold text-green-400">4.8</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
-                <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-trophy text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300 animate-fade-in">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-trophy text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Rank</h3>
-                <p class="text-2xl font-bold text-yellow-400">Top 15%</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Rank</h3>
+                <p class="text-xl sm:text-2xl font-bold text-yellow-400">Top 15%</p>
             </div>
         </div>
     </div>

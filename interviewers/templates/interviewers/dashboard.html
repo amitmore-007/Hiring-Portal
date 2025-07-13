@@ -126,25 +126,25 @@
 
     <!-- Navigation -->
     <nav class="relative z-50 glass-morphism border-b border-gray-700/50">
-        <div class="container mx-auto px-6 py-4">
+        <div class="container mx-auto px-4 sm:px-6 py-4">
             <div class="flex justify-between items-center">
-                <a href="/" class="flex items-center space-x-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
-                        <i class="fas fa-briefcase text-white text-lg"></i>
+                <a href="/" class="flex items-center space-x-2 sm:space-x-3 group">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+                        <i class="fas fa-briefcase text-white text-sm sm:text-lg"></i>
                     </div>
-                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    <span class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                         Hiring Portal
                     </span>
                 </a>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2 text-gray-300">
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="hidden sm:flex items-center space-x-2 text-gray-300">
                         <i class="fas fa-user-tie text-blue-400"></i>
                         <span>Interviewer Dashboard</span>
                     </div>
                     <form method="post" action="{% url 'logout' %}" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        <button type="submit" class="px-3 py-2 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm sm:text-base">
+                            <i class="fas fa-sign-out-alt mr-1 sm:mr-2"></i><span class="hidden sm:inline">Logout</span>
                         </button>
                     </form>
                 </div>
@@ -153,13 +153,13 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="relative z-10 container mx-auto px-6 py-12">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <!-- Header Section -->
-        <div class="text-center mb-16 animate-fade-in">
-            <h1 class="text-5xl font-black mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        <div class="text-center mb-12 sm:mb-16 animate-fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-3 sm:mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Elite Interview Center
             </h1>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto px-4">
                 Manage candidates, generate AI-powered questions, and analyze interview performance with precision.
             </p>
         </div>
@@ -188,72 +188,72 @@
         {% endif %}
 
         <!-- Stats Section -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12 max-w-5xl mx-auto animate-slide-up">
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-users text-white"></i>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-5xl mx-auto animate-slide-up">
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-users text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Total Candidates</h3>
-                <p class="text-2xl font-bold text-blue-400">{{ resumes|length }}</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Total Candidates</h3>
+                <p class="text-xl sm:text-2xl font-bold text-blue-400">{{ resumes|length }}</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-calendar-check text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-calendar-check text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Scheduled</h3>
-                <p class="text-2xl font-bold text-purple-400">{{ scheduled_count|default:0 }}</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Scheduled</h3>
+                <p class="text-xl sm:text-2xl font-bold text-purple-400">{{ scheduled_count|default:0 }}</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-check-circle text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-check-circle text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Completed</h3>
-                <p class="text-2xl font-bold text-green-400">{{ completed_count|default:0 }}</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Completed</h3>
+                <p class="text-xl sm:text-2xl font-bold text-green-400">{{ completed_count|default:0 }}</p>
             </div>
             
-            <div class="glass-morphism rounded-2xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-star text-white"></i>
+            <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center hover:bg-white/20 transition-all duration-300">
+                <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <i class="fas fa-star text-white text-sm sm:text-base"></i>
                 </div>
-                <h3 class="font-semibold text-white mb-2">Avg Rating</h3>
-                <p class="text-2xl font-bold text-yellow-400">4.8</p>
+                <h3 class="font-semibold text-white mb-1 sm:mb-2 text-sm sm:text-base">Avg Rating</h3>
+                <p class="text-xl sm:text-2xl font-bold text-yellow-400">4.8</p>
             </div>
         </div>
 
         <!-- Candidates Section -->
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-white mb-8 flex items-center animate-fade-in">
-                <i class="fas fa-user-graduate text-blue-400 mr-3"></i>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8 flex items-center animate-fade-in px-2 sm:px-0">
+                <i class="fas fa-user-graduate text-blue-400 mr-2 sm:mr-3"></i>
                 Candidate Profiles
             </h2>
 
             {% if resumes %}
-                <div class="space-y-8">
+                <div class="space-y-6 sm:space-y-8">
                     {% for resume in resumes %}
                     <div class="candidate-card animate-slide-up" style="animation-delay: {{ forloop.counter0|add:0 }}00ms;">
                         <div class="gradient-border">
-                            <div class="gradient-border-inner p-8">
+                            <div class="gradient-border-inner p-4 sm:p-6 lg:p-8">
                                 
                                 <!-- Candidate Header -->
-                                <div class="flex items-center justify-between mb-6">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
-                                            <i class="fas fa-user text-2xl text-white"></i>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+                                    <div class="flex items-center space-x-3 sm:space-x-4">
+                                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                                            <i class="fas fa-user text-lg sm:text-2xl text-white"></i>
                                         </div>
                                         <div>
-                                            <h3 class="text-2xl font-bold text-white">{{ resume.user.username }}</h3>
-                                            <p class="text-gray-400">Candidate Profile</p>
+                                            <h3 class="text-xl sm:text-2xl font-bold text-white">{{ resume.user.username }}</h3>
+                                            <p class="text-gray-400 text-sm sm:text-base">Candidate Profile</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-2">
                                         {% if resume.meeting_link %}
-                                        <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium">
+                                        <span class="px-2 sm:px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs sm:text-sm font-medium">
                                             <i class="fas fa-video mr-1"></i>Scheduled
                                         </span>
                                         {% else %}
-                                        <span class="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-sm font-medium">
+                                        <span class="px-2 sm:px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-xs sm:text-sm font-medium">
                                             <i class="fas fa-clock mr-1"></i>Pending
                                         </span>
                                         {% endif %}
@@ -262,47 +262,43 @@
 
                                 {% if resume.resume %}
                                 <!-- Resume Section -->
-                                <div class="mb-6">
+                                <div class="mb-4 sm:mb-6">
                                     <a href="{{ resume.resume.url }}?t={{ resume.id }}" target="_blank"
-                                       class="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 
-                                              border border-blue-500/30 rounded-xl text-blue-400 hover:bg-blue-600/30 transition-all duration-300">
+                                       class="inline-flex items-center space-x-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 
+                                              border border-blue-500/30 rounded-lg sm:rounded-xl text-blue-400 hover:bg-blue-600/30 transition-all duration-300 text-sm sm:text-base">
                                         <i class="fas fa-download"></i>
                                         <span>Download Resume</span>
                                     </a>
-                                    <!-- Debug Info (remove in production) -->
-                                    <div class="text-xs text-gray-500 mt-1">
-                                        File: {{ resume.resume.name }} | User: {{ resume.user.username }}
-                                    </div>
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                                     
                                     <!-- Generate Questions -->
                                     <form method="post" class="w-full">
                                         {% csrf_token %}
                                         <input type="hidden" name="resume_id" value="{{ resume.id }}">
                                         <button type="submit" name="generate_questions"
-                                                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold 
+                                                class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 sm:px-6 py-3 rounded-lg sm:rounded-xl font-semibold 
                                                        hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 
-                                                       focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black">
+                                                       focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black text-sm sm:text-base">
                                             <i class="fas fa-brain mr-2"></i>
                                             Generate AI Questions
                                         </button>
                                     </form>
 
                                     <!-- Schedule Meeting -->
-                                    <form method="post" class="w-full flex space-x-2">
+                                    <form method="post" class="w-full flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                                         {% csrf_token %}
                                         <input type="hidden" name="resume_id" value="{{ resume.id }}">
                                         <input type="datetime-local" name="start_time" required
-                                               class="input-field flex-1 px-4 py-3 rounded-xl text-white placeholder-gray-500 focus:outline-none">
+                                               class="input-field flex-1 px-3 sm:px-4 py-3 rounded-lg sm:rounded-xl text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base">
                                         <button type="submit" name="schedule_meeting"
-                                                class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold 
+                                                class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-6 py-3 rounded-lg sm:rounded-xl font-semibold 
                                                        hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105
-                                                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black">
-                                            <i class="fas fa-calendar-plus mr-2"></i>
-                                            Schedule
+                                                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-black text-sm sm:text-base">
+                                            <i class="fas fa-calendar-plus mr-1 sm:mr-2"></i>
+                                            <span class="hidden sm:inline">Schedule</span><span class="sm:hidden">Schedule Meeting</span>
                                         </button>
                                     </form>
 
@@ -491,11 +487,11 @@
                                 {% endif %}
 
                                 {% else %}
-                                <div class="text-center py-8">
-                                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <i class="fas fa-exclamation text-2xl text-white"></i>
+                                <div class="text-center py-6 sm:py-8">
+                                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                        <i class="fas fa-exclamation text-xl sm:text-2xl text-white"></i>
                                     </div>
-                                    <p class="text-yellow-400 font-semibold">No resume uploaded by this candidate</p>
+                                    <p class="text-yellow-400 font-semibold text-sm sm:text-base">No resume uploaded by this candidate</p>
                                 </div>
                                 {% endif %}
                             </div>
@@ -504,12 +500,12 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="text-center py-16 animate-fade-in">
-                    <div class="w-24 h-24 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-folder-open text-3xl text-white"></i>
+                <div class="text-center py-12 sm:py-16 animate-fade-in">
+                    <div class="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                        <i class="fas fa-folder-open text-2xl sm:text-3xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">No Candidates Yet</h3>
-                    <p class="text-gray-400 text-lg">Candidates will appear here once they submit their applications.</p>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">No Candidates Yet</h3>
+                    <p class="text-gray-400 text-base sm:text-lg px-4">Candidates will appear here once they submit their applications.</p>
                 </div>
             {% endif %}
         </div>
@@ -745,6 +741,10 @@ function downloadQuestionsAsPDF(button) {
                 el.style.transition = 'all 0.8s ease-out';
                 observer.observe(el);
             });
+        });
+    </script>
+</body>
+</html>
         });
     </script>
 </body>

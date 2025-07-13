@@ -83,11 +83,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-        'OPTIONS': {
-            'connect_timeout': 60,
-            'read_timeout': 60,
-            'write_timeout': 60,
-        }
     }
 }
 
@@ -206,3 +201,4 @@ LOGGING = {
         },
     },
 }
+          
