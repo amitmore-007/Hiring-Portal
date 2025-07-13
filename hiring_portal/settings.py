@@ -201,4 +201,8 @@ LOGGING = {
         },
     },
 }
-          
+
+# Login/Logout URLs
+LOGIN_URL = '/candidate/login/'  # Default login URL
+LOGIN_REDIRECT_URL = '/candidate/dashboard/'  # Default redirect after login
+LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
