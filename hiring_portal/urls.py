@@ -14,6 +14,7 @@ urlpatterns = [
     # Redirect default Django auth URLs to our custom ones
     path('accounts/login/', RedirectView.as_view(url='/candidate/login/', permanent=True)),
     path('accounts/logout/', RedirectView.as_view(url='/candidate/logout/', permanent=True)),
+    path('logout/', RedirectView.as_view(url='/candidate/logout/', permanent=True)),
 ]
 
 # Serve media files in development and production

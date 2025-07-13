@@ -42,94 +42,103 @@ def interviewer_signup(request):
 
 @login_required(login_url='/interviewer/login/')
 def interviewer_dashboard(request):
-    resumes = CandidateProfile.objects.exclude(resume__isnull=True).exclude(resume__exact='')
-    questions_dict = {}  # Store questions per candidate ID
-    meeting_link = None
-    evaluation_reports = {}
+    try:
+        resumes = CandidateProfile.objects.exclude(resume__isnull=True).exclude(resume__exact='')
+        questions_dict = {}  # Store questions per candidate ID
+        meeting_link = None
+        evaluation_reports = {}
 
-    interviewer_profile, created = InterviewerProfile.objects.get_or_create(user=request.user)
+        interviewer_profile, created = InterviewerProfile.objects.get_or_create(user=request.user)
 
-    if request.method == 'POST':
-        resume_id = int(request.POST.get('resume_id'))  # Convert to integer
-        candidate = CandidateProfile.objects.get(id=resume_id)
+        if request.method == 'POST':
+            resume_id = int(request.POST.get('resume_id'))  # Convert to integer
+            candidate = CandidateProfile.objects.get(id=resume_id)
 
-        if 'generate_questions' in request.POST:
-            try:
-                # Get the full path to the resume file
-                if candidate.resume and hasattr(candidate.resume, 'path'):
-                    resume_path = candidate.resume.path
-                elif candidate.resume:
-                    # Fallback: construct path from MEDIA_ROOT and resume name
-                    from django.conf import settings
-                    resume_path = os.path.join(settings.MEDIA_ROOT, str(candidate.resume))
-                else:
-                    questions_dict[resume_id] = "Error: No resume found for this candidate"
-                    return render(request, 'interviewers/dashboard.html', {
-                        'resumes': resumes,
-                        'questions_dict': questions_dict,
-                        'meeting_link': meeting_link,
-                        'evaluation_reports': evaluation_reports
-                    })
-                
-                # Generate questions for this specific candidate
-                generated_questions = generate_interview_questions(resume_path)
-                # Format questions for better display
-                formatted_questions = format_questions_for_display(generated_questions)
-                questions_dict[resume_id] = formatted_questions
-                print(f"DEBUG: Generated questions for resume_id {resume_id}")
-                print(f"DEBUG: Formatted sections count: {len(formatted_questions) if isinstance(formatted_questions, list) else 'Not a list'}")
-                if isinstance(formatted_questions, list):
-                    for i, section in enumerate(formatted_questions):
-                        print(f"DEBUG: Section {i}: {section.get('title', 'No title')} with {len(section.get('subsections', []))} subsections")
-                        for j, subsection in enumerate(section.get('subsections', [])):
-                            print(f"DEBUG: Subsection {j}: {subsection.get('title', 'No title')} with {len(subsection.get('questions', []))} items")
-            except Exception as e:
-                questions_dict[resume_id] = f"Error generating questions: {str(e)}"
+            if 'generate_questions' in request.POST:
+                try:
+                    # Get the full path to the resume file
+                    if candidate.resume and hasattr(candidate.resume, 'path'):
+                        resume_path = candidate.resume.path
+                    elif candidate.resume:
+                        # Fallback: construct path from MEDIA_ROOT and resume name
+                        from django.conf import settings
+                        import os
+                        resume_path = os.path.join(settings.MEDIA_ROOT, str(candidate.resume))
+                    else:
+                        questions_dict[resume_id] = "Error: No resume found for this candidate"
+                        return render(request, 'interviewers/dashboard.html', {
+                            'resumes': resumes,
+                            'questions_dict': questions_dict,
+                            'meeting_link': meeting_link,
+                            'evaluation_reports': evaluation_reports
+                        })
+                    
+                    # Generate questions for this specific candidate
+                    generated_questions = generate_interview_questions(resume_path)
+                    # Format questions for better display
+                    formatted_questions = format_questions_for_display(generated_questions)
+                    questions_dict[resume_id] = formatted_questions
+                    messages.success(request, 'AI questions generated successfully!')
+                except Exception as e:
+                    questions_dict[resume_id] = f"Error generating questions: {str(e)}"
+                    messages.error(request, f'Error generating questions: {str(e)}')
 
-        elif 'schedule_meeting' in request.POST:
-            start_time = request.POST.get('start_time')
+            elif 'schedule_meeting' in request.POST:
+                try:
+                    start_time = request.POST.get('start_time')
 
-            new_meeting_link = schedule_meeting(
-                topic=f"Interview with {candidate.user.username}",
-                start_time=start_time,
-                zoom_account_id=interviewer_profile.zoom_account_id,
-                zoom_client_id=interviewer_profile.zoom_client_id,
-                zoom_client_secret=interviewer_profile.zoom_client_secret
-            )
+                    new_meeting_link = schedule_meeting(
+                        topic=f"Interview with {candidate.user.username}",
+                        start_time=start_time,
+                        zoom_account_id=interviewer_profile.zoom_account_id,
+                        zoom_client_id=interviewer_profile.zoom_client_id,
+                        zoom_client_secret=interviewer_profile.zoom_client_secret
+                    )
 
-            if new_meeting_link:
-                candidate.meeting_link = new_meeting_link
-                candidate.meeting_time = start_time  # Save the meeting time
-                candidate.save()
-                meeting_link = new_meeting_link
-                # Add success message for meeting scheduling
-                from django.contrib import messages
-                messages.success(request, f'🎉 Interview successfully scheduled with {candidate.user.username}! Meeting link has been generated and saved.')
+                    if new_meeting_link:
+                        candidate.meeting_link = new_meeting_link
+                        candidate.meeting_time = start_time  # Save the meeting time
+                        candidate.save()
+                        meeting_link = new_meeting_link
+                        messages.success(request, f'🎉 Interview successfully scheduled with {candidate.user.username}! Meeting link has been generated and saved.')
+                    else:
+                        messages.error(request, 'Failed to schedule meeting. Please check your Zoom configuration.')
+                except Exception as e:
+                    messages.error(request, f'Error scheduling meeting: {str(e)}')
 
-        elif 'process_audio' in request.POST and 'audio_file' in request.FILES:
-            audio_file = request.FILES['audio_file']
+            elif 'process_audio' in request.POST and 'audio_file' in request.FILES:
+                try:
+                    audio_file = request.FILES['audio_file']
+                    from django.core.files.storage import default_storage
+                    from django.core.files.base import ContentFile
 
-            # ✅ Save the uploaded file temporarily
-            audio_path = f"media/uploads/{audio_file.name}"
-            path = default_storage.save(audio_path, ContentFile(audio_file.read()))
+                    # Save the uploaded file temporarily
+                    audio_path = f"media/uploads/{audio_file.name}"
+                    path = default_storage.save(audio_path, ContentFile(audio_file.read()))
 
-            # ✅ Transcribe the audio using the saved file path
-            evaluation_reports[resume_id] = transcribe_audio(default_storage.path(path))
+                    # Transcribe the audio using the saved file path
+                    evaluation_reports[resume_id] = transcribe_audio(default_storage.path(path))
+                    messages.success(request, 'Audio file processed successfully!')
 
-            # ✅ Optionally, delete the file after processing (uncomment to enable cleanup)
-            # default_storage.delete(path)
+                    # Optionally, delete the file after processing
+                    # default_storage.delete(path)
+                except Exception as e:
+                    messages.error(request, f'Error processing audio: {str(e)}')
 
-    # Add questions to each resume object for template access
-    for resume in resumes:
-        resume.questions = questions_dict.get(resume.id, None)
-        print(f"DEBUG: Resume {resume.id} has questions: {resume.questions is not None}")  # Debug output
+        # Add questions to each resume object for template access
+        for resume in resumes:
+            resume.questions = questions_dict.get(resume.id, None)
 
-    return render(request, 'interviewers/dashboard.html', {
-        'resumes': resumes,
-        'questions_dict': questions_dict,
-        'meeting_link': meeting_link,
-        'evaluation_reports': evaluation_reports
-    })
+        return render(request, 'interviewers/dashboard.html', {
+            'resumes': resumes,
+            'questions_dict': questions_dict,
+            'meeting_link': meeting_link,
+            'evaluation_reports': evaluation_reports
+        })
+    except Exception as e:
+        messages.error(request, f'Dashboard error: {str(e)}')
+        return redirect('interviewer_login')
+
 
 def interviewer_logout(request):
     """Handle interviewer logout"""
