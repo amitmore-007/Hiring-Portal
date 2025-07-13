@@ -27,7 +27,9 @@ def candidate_dashboard(request):
     })
 
 
+@login_required
 def candidate_logout(request):
+    """Handle candidate logout"""
     logout(request)
     return redirect('home')  # Redirect to home page after logout
 

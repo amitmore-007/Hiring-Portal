@@ -6,6 +6,7 @@ from .forms import InterviewerSignUpForm
 from django.urls import reverse_lazy
 from .utils import generate_interview_questions, schedule_meeting, transcribe_audio
 from .models import InterviewerProfile
+from django.contrib.auth import logout
 
 class InterviewerLoginView(LoginView):
     template_name = 'interviewers/login.html'
@@ -33,9 +34,12 @@ def interviewer_signup(request):
     else:
         form = InterviewerSignUpForm()
     return render(request, 'interviewers/signup.html', {'form': form})
-import os
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+
+@login_required
+def interviewer_logout(request):
+    """Handle interviewer logout"""
+    logout(request)
+    return redirect('interviewer_login')
 
 def format_questions_for_display(questions_text):
     """Format AI-generated questions for beautiful display while preserving categories"""
