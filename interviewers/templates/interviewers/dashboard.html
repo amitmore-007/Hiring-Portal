@@ -309,17 +309,37 @@
                                             <i class="fas fa-video text-blue-400 mr-2"></i>
                                             Interview Session
                                         </h4>
+                                        {% if "zoom.us" in resume.meeting_link %}
                                         <a href="{{ resume.meeting_link }}" target="_blank"
                                            class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
-                                            <i class="fas fa-external-link-alt mr-2"></i>Join Meeting
+                                            <i class="fas fa-video mr-2"></i>Join Zoom Meeting
                                         </a>
+                                        {% else %}
+                                        <div class="px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-lg">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>Manual Setup Required
+                                        </div>
+                                        {% endif %}
                                     </div>
+                                    
+                                    {% if "zoom.us" not in resume.meeting_link %}
+                                    <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 mb-4">
+                                        <h5 class="text-orange-400 font-semibold mb-2">
+                                            <i class="fas fa-info-circle mr-2"></i>Manual Meeting Setup
+                                        </h5>
+                                        <p class="text-orange-300 text-sm mb-2">
+                                            Zoom integration is currently unavailable. Please manually create a meeting and share the link:
+                                        </p>
+                                        <div class="bg-black/30 rounded-lg p-3 text-gray-300 font-mono text-sm">
+                                            Meeting Link: {{ resume.meeting_link }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
 
                                     <!-- Upload & Analyze Interview -->
                                     <form method="post" enctype="multipart/form-data" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
                                         {% csrf_token %}
                                         <input type="hidden" name="resume_id" value="{{ resume.id }}">
-                                        <input type="file" name="audio_file" accept=".m4a" required
+                                        <input type="file" name="audio_file" accept=".m4a,.mp3,.wav,.mp4" required
                                                class="input-field flex-1 px-4 py-3 rounded-xl text-white placeholder-gray-500 focus:outline-none">
                                         <button type="submit" name="process_audio"
                                                 class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold 
@@ -746,7 +766,3 @@ function downloadQuestionsAsPDF(button) {
     </script>
 </body>
 </html>
-    </script>
-</body>
-</html>
-     

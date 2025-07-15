@@ -249,6 +249,18 @@
                         <form method="post" class="space-y-4 sm:space-y-6 animate-fade-in" style="animation-delay: 0.4s;">
                             {% csrf_token %}
 
+                            <!-- Display any form errors -->
+                            {% if form.non_field_errors %}
+                                <div class="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl backdrop-blur-sm mb-4">
+                                    {% for error in form.non_field_errors %}
+                                        <p class="flex items-center">
+                                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
                             <!-- Form Fields Container with Custom Scrollbar -->
                             <div class="form-container custom-scrollbar max-h-[55vh] overflow-y-auto space-y-4 sm:space-y-6">
                                 {% for field in form %}

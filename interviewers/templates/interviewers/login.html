@@ -226,6 +226,17 @@
                             {% endfor %}
                         {% endif %}
 
+                        <!-- System Status Indicator -->
+                        <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+                                <div class="flex-1">
+                                    <h4 class="text-blue-400 font-semibold text-sm">System Status</h4>
+                                    <p class="text-blue-300 text-xs">All core features operational. Some integrations may be limited.</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <form method="post" class="space-y-4 sm:space-y-6 animate-fade-in" style="animation-delay: 0.4s;">
                             {% csrf_token %}
                             
