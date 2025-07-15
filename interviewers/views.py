@@ -45,9 +45,13 @@ def interviewer_signup(request):
         if form.is_valid():
             try:
                 user = form.save()
-                # Create an InterviewerProfile for the new user
-                InterviewerProfile.objects.create(user=user)
-                # Log the user in after sign-up
+                # Create an InterviewerProfile with Zoom credentials
+                InterviewerProfile.objects.create(
+                    user=user,
+                    zoom_account_id=form.cleaned_data.get('zoom_account_id'),
+                    zoom_client_id=form.cleaned_data.get('zoom_client_id'),
+                    zoom_client_secret=form.cleaned_data.get('zoom_client_secret')
+                )
                 login(request, user)
                 messages.success(request, f'Welcome {user.username}! Your interviewer account has been created successfully.')
                 return redirect('interviewer_dashboard')
@@ -58,7 +62,6 @@ def interviewer_signup(request):
     else:
         form = InterviewerSignUpForm()
     return render(request, 'interviewers/signup.html', {'form': form})
-
 
 @login_required(login_url='interviewer_login')
 def interviewer_dashboard(request):
@@ -116,12 +119,19 @@ def interviewer_dashboard(request):
                 elif 'schedule_meeting' in request.POST:
                     try:
                         start_time = request.POST.get('start_time')
-
+                        
+                        # Verify we have all required credentials
+                        if not all([interviewer_profile.zoom_account_id, 
+                                interviewer_profile.zoom_client_id, 
+                                interviewer_profile.zoom_client_secret]):
+                            messages.error(request, 'Please configure your Zoom credentials in your profile before scheduling meetings.')
+                            return redirect('interviewer_dashboard')
+                            
                         new_meeting_link = schedule_meeting(
                             topic=f"Interview with {candidate.user.username}",
                             start_time=start_time,
                             zoom_account_id=interviewer_profile.zoom_account_id,
-                            zoom_client_id=interviewer_profile.zoom_client_id,
+                            zoom_client_id=interviewer_profile.zoom_client_secret,
                             zoom_client_secret=interviewer_profile.zoom_client_secret
                         )
 
@@ -135,25 +145,6 @@ def interviewer_dashboard(request):
                             messages.error(request, 'Failed to schedule meeting. Please check your Zoom configuration.')
                     except Exception as e:
                         messages.error(request, f'Error scheduling meeting: {str(e)}')
-
-                elif 'process_audio' in request.POST and 'audio_file' in request.FILES:
-                    try:
-                        audio_file = request.FILES['audio_file']
-                        from django.core.files.storage import default_storage
-                        from django.core.files.base import ContentFile
-
-                        # Save the uploaded file temporarily
-                        audio_path = f"media/uploads/{audio_file.name}"
-                        path = default_storage.save(audio_path, ContentFile(audio_file.read()))
-
-                        # Transcribe the audio using the saved file path
-                        evaluation_reports[resume_id] = transcribe_audio(default_storage.path(path))
-                        messages.success(request, 'Audio file processed successfully!')
-
-                        # Optionally, delete the file after processing
-                        # default_storage.delete(path)
-                    except Exception as e:
-                        messages.error(request, f'Error processing audio: {str(e)}')
 
             except (ValueError, CandidateProfile.DoesNotExist) as e:
                 messages.error(request, f'Invalid candidate selection: {str(e)}')

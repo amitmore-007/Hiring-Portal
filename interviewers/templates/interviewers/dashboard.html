@@ -229,7 +229,7 @@
             {% if resumes %}
                 <div class="space-y-6 sm:space-y-8">
                     {% for resume in resumes %}
-                    <div class="candidate-card animate-slide-up" style="animation-delay: {{ forloop.counter0|add:0 }}00ms;">
+                    <div class="candidate-card animate-slide-up" data-delay="{% widthratio forloop.counter0 1 100 %}">
                         <div class="gradient-border">
                             <div class="gradient-border-inner p-4 sm:p-6 lg:p-8">
                                 
@@ -708,6 +708,10 @@ function downloadQuestionsAsPDF(button) {
 }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Apply animation delays from data attributes
+            document.querySelectorAll('[data-delay]').forEach(element => {
+                element.style.animationDelay = `${element.dataset.delay}ms`;
+            });
             // Add interactive hover effects
             const cards = document.querySelectorAll('.candidate-card');
             cards.forEach(card => {

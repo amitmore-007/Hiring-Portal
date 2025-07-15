@@ -145,6 +145,13 @@ def generate_interview_questions(pdf_file_path):
 
 def schedule_meeting(topic, start_time, zoom_account_id, zoom_client_id, zoom_client_secret):
     # Get OAuth Token
+    """Schedule a Zoom meeting and return the join URL"""
+    if not all([zoom_account_id, zoom_client_id, zoom_client_secret]):
+        raise ValueError("Missing required Zoom credentials")
+    
+    if not topic or not start_time:
+        raise ValueError("Missing meeting topic or start time")
+        
     def get_zoom_access_token():
         url = "https://zoom.us/oauth/token"
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
