@@ -60,15 +60,18 @@ def interviewer_signup(request):
     return render(request, 'interviewers/signup.html', {'form': form})
 
 
-@login_required
+@login_required(login_url='interviewer_login')
 def interviewer_dashboard(request):
-    """Interviewer dashboard view - no custom login_url to avoid conflicts"""
-    try:
-        # Check if user is authenticated
-        if not request.user.is_authenticated:
-            messages.error(request, 'Please log in to access your dashboard.')
-            return redirect('interviewer_login')
+    """Interviewer dashboard view"""
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please log in to access your dashboard.')
+        return redirect('interviewer_login')
 
+    # Add this check to verify session is maintained
+    if not request.session.session_key:
+        request.session.create()
+    
+    try:
         resumes = CandidateProfile.objects.exclude(resume__isnull=True).exclude(resume__exact='')
         questions_dict = {}  # Store questions per candidate ID
         meeting_link = None
@@ -170,7 +173,6 @@ def interviewer_dashboard(request):
     except Exception as e:
         messages.error(request, f'Dashboard error: {str(e)}')
         return redirect('interviewer_login')
-
 
 def interviewer_logout(request):
     """Handle interviewer logout"""
