@@ -247,6 +247,6 @@ Due to Render's resource constraints, the deployed version includes:
 For questions, suggestions, or collaboration opportunities:
 
 - 📧 **Email**: amore43035@gmail.com
-- 🐙 **GitHub**: [@your-username](https://github.com/amitmore-007)
+- 🐙 **GitHub**: [@amitmore-007](https://github.com/amitmore-007)
 
 
