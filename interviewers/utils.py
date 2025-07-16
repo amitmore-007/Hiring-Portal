@@ -144,67 +144,90 @@ def generate_interview_questions(pdf_file_path):
 
 
 def schedule_meeting(topic, start_time, zoom_account_id, zoom_client_id, zoom_client_secret):
-    # Get OAuth Token
     """Schedule a Zoom meeting and return the join URL"""
+    
+    # Validate required parameters
     if not all([zoom_account_id, zoom_client_id, zoom_client_secret]):
-        raise ValueError("Missing required Zoom credentials")
+        print("Error: Missing required Zoom credentials")
+        return None
     
     if not topic or not start_time:
-        raise ValueError("Missing meeting topic or start time")
+        print("Error: Missing meeting topic or start time")
+        return None
+    
+    # Validate credentials format
+    if not zoom_account_id.strip() or not zoom_client_id.strip() or not zoom_client_secret.strip():
+        print("Error: Empty Zoom credentials provided")
+        return None
         
     def get_zoom_access_token():
         url = "https://zoom.us/oauth/token"
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         payload = {
             "grant_type": "account_credentials",
-            "account_id": zoom_account_id
+            "account_id": zoom_account_id.strip()
         }
-        auth = (zoom_client_id, zoom_client_secret)
+        auth = (zoom_client_id.strip(), zoom_client_secret.strip())
 
-        response = requests.post(url, headers=headers, data=payload, auth=auth)
-
-        if response.status_code == 200:
-            return response.json()["access_token"]
-        else:
-            print("Error getting access token:", response.text)
+        try:
+            response = requests.post(url, headers=headers, data=payload, auth=auth, timeout=30)
+            
+            if response.status_code == 200:
+                return response.json()["access_token"]
+            else:
+                print(f"Error getting access token: {response.text}")
+                print(f"Status code: {response.status_code}")
+                print(f"Account ID: {zoom_account_id[:10]}...")
+                print(f"Client ID: {zoom_client_id[:10]}...")
+                return None
+                
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {e}")
             return None
 
     try:
-        # Validate input parameters
-        if not all([topic, start_time, zoom_account_id, zoom_client_id, zoom_client_secret]):
-            print("Error: Missing required Zoom credentials or meeting details")
-            return None
-
-        # Schedule the meeting
+        # Get access token
         access_token = get_zoom_access_token()
         if not access_token:
             return None
 
+        # Schedule the meeting
         url = "https://api.zoom.us/v2/users/me/meetings"
         headers = {
             "Authorization": f"Bearer {access_token}",
             "Content-Type": "application/json"
         }
+        
+        # Ensure start_time is properly formatted
+        if 'T' not in start_time:
+            start_time = start_time.replace(' ', 'T')
+        if not start_time.endswith('Z'):
+            start_time += ':00Z'
+        
         payload = {
             "topic": topic,
-            "type": 2,
+            "type": 2,  # Scheduled meeting
             "start_time": start_time,
-            "duration": 30,  # 30-minute meeting
+            "duration": 60,  # 60-minute meeting
             "timezone": "UTC",
             "settings": {
                 "host_video": True,
                 "participant_video": True,
-                "mute_upon_entry": True,
-                "waiting_room": False
+                "mute_upon_entry": False,
+                "waiting_room": False,
+                "join_before_host": True,
+                "auto_recording": "none"
             }
         }
 
-        response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload, timeout=30)
 
         if response.status_code == 201:
-            return response.json()["join_url"]
+            meeting_data = response.json()
+            return meeting_data["join_url"]
         else:
-            print("Error scheduling meeting:", response.text)
+            print(f"Error scheduling meeting: {response.text}")
+            print(f"Status code: {response.status_code}")
             return None
             
     except Exception as e:

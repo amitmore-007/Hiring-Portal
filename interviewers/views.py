@@ -127,11 +127,12 @@ def interviewer_dashboard(request):
                             messages.error(request, 'Please configure your Zoom credentials in your profile before scheduling meetings.')
                             return redirect('interviewer_dashboard')
                             
+                        # Fix: Pass the correct parameters to schedule_meeting
                         new_meeting_link = schedule_meeting(
                             topic=f"Interview with {candidate.user.username}",
                             start_time=start_time,
                             zoom_account_id=interviewer_profile.zoom_account_id,
-                            zoom_client_id=interviewer_profile.zoom_client_secret,
+                            zoom_client_id=interviewer_profile.zoom_client_id,  # Fixed: was zoom_client_secret
                             zoom_client_secret=interviewer_profile.zoom_client_secret
                         )
 
@@ -145,6 +146,40 @@ def interviewer_dashboard(request):
                             messages.error(request, 'Failed to schedule meeting. Please check your Zoom configuration.')
                     except Exception as e:
                         messages.error(request, f'Error scheduling meeting: {str(e)}')
+
+                elif 'process_audio' in request.POST:
+                    try:
+                        audio_file = request.FILES.get('audio_file')
+                        if not audio_file:
+                            messages.error(request, 'Please select an audio file to upload.')
+                            return redirect('interviewer_dashboard')
+                        
+                        # Handle file upload and processing
+                        import tempfile
+                        import os
+                        
+                        # Create temporary file
+                        temp_dir = tempfile.mkdtemp()
+                        temp_file_path = os.path.join(temp_dir, audio_file.name)
+                        
+                        with open(temp_file_path, 'wb+') as destination:
+                            for chunk in audio_file.chunks():
+                                destination.write(chunk)
+                        
+                        # Process the audio file
+                        analysis_result = transcribe_audio(temp_file_path)
+                        
+                        # Store the result for display
+                        evaluation_reports[resume_id] = analysis_result
+                        
+                        # Clean up
+                        os.remove(temp_file_path)
+                        os.rmdir(temp_dir)
+                        
+                        messages.success(request, 'Interview audio analyzed successfully!')
+                        
+                    except Exception as e:
+                        messages.error(request, f'Error processing audio: {str(e)}')
 
             except (ValueError, CandidateProfile.DoesNotExist) as e:
                 messages.error(request, f'Invalid candidate selection: {str(e)}')

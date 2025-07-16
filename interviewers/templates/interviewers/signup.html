@@ -266,9 +266,33 @@
                                 {% for field in form %}
                                 <div class="space-y-2">
                                     <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">
-                                        <i class="fas fa-{% if 'username' in field.name %}user{% elif 'email' in field.name %}envelope{% elif 'password' in field.name %}lock{% elif 'name' in field.name %}id-card{% elif 'company' in field.name %}building{% elif 'phone' in field.name %}phone{% elif 'experience' in field.name %}briefcase{% elif 'bio' in field.name %}quote-left{% else %}cog{% endif %} text-blue-400 mr-2"></i>
+                                        <i class="fas fa-{% if 'username' in field.name %}user{% elif 'email' in field.name %}envelope{% elif 'password' in field.name %}lock{% elif 'name' in field.name %}id-card{% elif 'company' in field.name %}building{% elif 'phone' in field.name %}phone{% elif 'experience' in field.name %}briefcase{% elif 'bio' in field.name %}quote-left{% elif 'zoom' in field.name %}video{% else %}cog{% endif %} text-blue-400 mr-2"></i>
                                         {{ field.label }}
+                                        {% if 'zoom' in field.name %}
+                                        <span class="text-xs text-yellow-400 ml-2">
+                                            <i class="fas fa-info-circle"></i>
+                                            Required for meeting scheduling
+                                        </span>
+                                        {% endif %}
                                     </label>
+                                    
+                                    {% if 'zoom' in field.name %}
+                                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 mb-2">
+                                        <p class="text-xs text-blue-300">
+                                            {% if 'account_id' in field.name %}
+                                            <i class="fas fa-info-circle mr-1"></i>
+                                            Get this from your Zoom App Marketplace > Develop > Build App > Server-to-Server OAuth
+                                            {% elif 'client_id' in field.name %}
+                                            <i class="fas fa-key mr-1"></i>
+                                            Your Zoom App's Client ID from the App Credentials section
+                                            {% elif 'client_secret' in field.name %}
+                                            <i class="fas fa-lock mr-1"></i>
+                                            Your Zoom App's Client Secret (keep this secure!)
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    
                                     <div class="relative group">
                                         {% if field.field.widget.input_type == 'textarea' %}
                                         <textarea 
@@ -283,7 +307,7 @@
                                             name="{{ field.name }}" 
                                             id="{{ field.id_for_label }}"
                                             class="input-field w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl text-white placeholder-gray-500 focus:outline-none text-sm sm:text-base"
-                                            placeholder="{% if 'username' in field.name %}Choose a unique username{% elif 'email' in field.name %}your@email.com{% elif 'password' in field.name %}Create a strong password{% elif 'name' in field.name %}Your full name{% elif 'company' in field.name %}Your company name{% elif 'phone' in field.name %}Your phone number{% elif 'experience' in field.name %}Years of experience{% else %}Enter {{ field.label|lower }}{% endif %}"
+                                            placeholder="{% if 'username' in field.name %}Choose a unique username{% elif 'email' in field.name %}your@email.com{% elif 'password' in field.name %}Create a strong password{% elif 'name' in field.name %}Your full name{% elif 'company' in field.name %}Your company name{% elif 'phone' in field.name %}Your phone number{% elif 'experience' in field.name %}Years of experience{% elif 'zoom_account_id' in field.name %}Your Zoom Account ID{% elif 'zoom_client_id' in field.name %}Your Zoom Client ID{% elif 'zoom_client_secret' in field.name %}Your Zoom Client Secret{% else %}Enter {{ field.label|lower }}{% endif %}"
                                             {% if field.value %}value="{{ field.value }}"{% endif %}
                                             {% if field.field.required %}required{% endif %}>
                                         {% endif %}

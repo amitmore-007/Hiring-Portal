@@ -5,25 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Interview Recording</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white shadow-lg rounded-lg p-6 max-w-lg w-full">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Upload Interview Recording</h1>
-        <p class="text-gray-600 mb-4">Please upload your interview recording in <strong>M4A format</strong> for analysis.</p>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white shadow-2xl rounded-2xl p-8 max-w-2xl w-full">
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-microphone text-white text-2xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Upload Interview Recording</h1>
+            <p class="text-gray-600">Upload your interview recording for AI-powered analysis</p>
+        </div>
 
-        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                <i class="fas fa-info-circle mr-2"></i>Supported Formats
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-file-audio text-blue-600"></i>
+                    <span class="text-blue-700">M4A (Recommended)</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-file-audio text-blue-600"></i>
+                    <span class="text-blue-700">MP3</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-file-audio text-blue-600"></i>
+                    <span class="text-blue-700">WAV</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-file-video text-blue-600"></i>
+                    <span class="text-blue-700">MP4 (Audio will be extracted)</span>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
             {% csrf_token %}
 
-            <div>
-                <label class="block text-gray-700 font-medium mb-1">Select an M4A File:</label>
-                <input type="file" name="audio_file" accept=".m4a" required 
-                       class="w-full border border-gray-300 px-3 py-2 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            <div class="space-y-2">
+                <label class="block text-gray-700 font-medium text-lg mb-3">
+                    <i class="fas fa-upload text-blue-500 mr-2"></i>
+                    Select Audio File
+                </label>
+                <div class="relative">
+                    <input type="file" 
+                           name="audio_file" 
+                           id="audioFile"
+                           accept=".m4a,.mp3,.wav,.mp4" 
+                           required 
+                           class="hidden">
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 transition-colors cursor-pointer"
+                         onclick="document.getElementById('audioFile').click()">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-2">Click to select file or drag and drop</p>
+                        <p class="text-sm text-gray-500">Maximum file size: 100MB</p>
+                    </div>
+                </div>
+                <div id="fileInfo" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-xl">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-file-audio text-green-600"></i>
+                        <div>
+                            <p class="font-semibold text-green-800" id="fileName"></p>
+                            <p class="text-sm text-green-600" id="fileSize"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition">
-                Analyze Interview
-            </button>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                <button type="submit" 
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold 
+                               hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <i class="fas fa-brain mr-2"></i>
+                    Analyze Interview
+                </button>
+                <a href="{% url 'interviewer_dashboard' %}" 
+                   class="flex-1 bg-gray-500 text-white py-4 px-6 rounded-xl font-semibold text-center
+                          hover:bg-gray-600 transition-colors duration-300">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Dashboard
+                </a>
+            </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('audioFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const fileInfo = document.getElementById('fileInfo');
+                const fileName = document.getElementById('fileName');
+                const fileSize = document.getElementById('fileSize');
+                
+                fileName.textContent = file.name;
+                fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+                fileInfo.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
