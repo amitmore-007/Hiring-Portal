@@ -3,7 +3,7 @@
 ## 🏆 **Hackathon Project - Elite Interview Management System**
 
 > **⚡ Live Demo**: [Hiring Portal - Deployed Version](https://hiring-portal-mfhx.onrender.com)  
-> **🎥 Demo Video**: [Watch Full Demo](https://your-demo-video-link)  
+> **🎥 Demo Video**: [Watch Full Demo](https://drive.google.com/file/d/18BJHBOK3kj21sZ_-jYYwLx-CjwwNdr8Q/view?usp=sharing)  
 > **📱 Full Features Repository**: [Complete Application](https://github.com/amitmore-007/Hiring-Portal-Main.git)
 
 ---
@@ -190,9 +190,8 @@ response = requests.post(
 - **🔥 Full Features Version**: [github.com/your-username/hiring-portal-full](https://github.com/amitmore-007/Hiring-Portal-Main.git)
 
 ### 🎬 **Demo Video**
-[![Demo Video](https://img.youtube.com/vi/your-video-id/maxresdefault.jpg)](https://your-demo-video-link)
 
-**📺 [Watch Complete Demo Video](https://your-demo-video-link)**
+**📺 [Watch Complete Demo Video](https://drive.google.com/file/d/18BJHBOK3kj21sZ_-jYYwLx-CjwwNdr8Q/view?usp=sharing)**
 
 > **Note**: The demo video showcases the full-featured version with audio/video analysis capabilities. The deployed version includes core features optimized for hackathon presentation.
 
