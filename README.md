@@ -1,4 +1,4 @@
-# 🚀 AI-Powered Hiring Portal
+# 🚀 AI-Powered Hiring Portal : Intervu.AI
 
 ## 🏆 **Hackathon Project - Elite Interview Management System**
 
