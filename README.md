@@ -186,8 +186,8 @@ response = requests.post(
 ## 🎮 **Demo & Links**
 
 ### 🔗 **Repository Links**
-- **📦 Hackathon Version (Deployed)**: [github.com/your-username/hiring-portal-hackathon](https://github.com/amitmore-007/Hiring-Portal.git)
-- **🔥 Full Features Version**: [github.com/your-username/hiring-portal-full](https://github.com/amitmore-007/Hiring-Portal-Main.git)
+- **📦 Hackathon Version (Deployed)**: [https://github.com/amitmore-007/Hiring-Portal.git](https://github.com/amitmore-007/Hiring-Portal.git)
+- **🔥 Full Features Version**: [https://github.com/amitmore-007/Hiring-Portal-Main.git](https://github.com/amitmore-007/Hiring-Portal-Main.git)
 
 ### 🎬 **Demo Video**
 
