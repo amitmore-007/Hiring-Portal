@@ -2,7 +2,7 @@
 
 ## 🏆 **Hackathon Project - Elite Interview Management System**
 
-> **⚡ Live Demo**: [Hiring Portal - Deployed Version](https://hiring-portal-mfhx.onrender.com)  
+> **⚡ Live Demo**: [Intervu.AI - Deployed Version](https://hiring-portal-mfhx.onrender.com)  
 > **🎥 Demo Video**: [Watch Full Demo](https://drive.google.com/file/d/18BJHBOK3kj21sZ_-jYYwLx-CjwwNdr8Q/view?usp=sharing)  
 > **📱 Full Features Repository**: [Complete Application](https://github.com/amitmore-007/Hiring-Portal-Main.git)
 
