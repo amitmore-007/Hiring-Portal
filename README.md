@@ -88,8 +88,8 @@ PostgreSQL 12+
 
 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/hiring-portal-hackathon.git
-cd hiring-portal-hackathon
+git clone https://github.com/amitmore-007/Hiring-Portal.git
+cd hiring-portal
 ```
 
 2. **Create Virtual Environment**
